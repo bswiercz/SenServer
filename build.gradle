@@ -1,0 +1,49 @@
+buildscript {
+	ext {
+		springBootVersion = '2.7.2'
+//		spockVersion = '1.2-groovy-2.5'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'java'
+
+group = 'io.bswiercz'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation("org.springframework.boot:spring-boot-starter")
+	implementation("org.springframework.boot:spring-boot-starter-websocket")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+//	runtime('org.springframework.boot:spring-boot-devtools')
+
+	implementation('commons-io:commons-io:2.11.0')
+
+	annotationProcessor("org.projectlombok:lombok:1.18.24")
+	compileOnly("org.projectlombok:lombok:1.18.24")
+
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+compileJava {
+	options.incremental = true
+	options.compilerArgs << '-parameters'
+	options.compilerArgs << '-Xlint:unchecked'
+}
